@@ -1,4 +1,4 @@
-package guru.springframework.services;
+package sergio.services;
 
 import sergio.commands.IngredientCommand;
 import sergio.converters.IngredientCommandToIngredient;

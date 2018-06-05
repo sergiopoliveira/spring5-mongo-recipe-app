@@ -1,33 +1,45 @@
-package guru.springframework.repositories;
-
-import sergio.domain.UnitOfMeasure;
-import sergio.repositories.UnitOfMeasureRepository;
-
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Optional;
+package sergio.repositories;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by jt on 6/17/17.
- */
-@Ignore
+import java.util.Optional;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import sergio.bootstrap.RecipeBootstrap;
+import sergio.domain.UnitOfMeasure;
+import sergio.repositories.CategoryRepository;
+import sergio.repositories.RecipeRepository;
+import sergio.repositories.UnitOfMeasureRepository;
+
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@DataMongoTest
 public class UnitOfMeasureRepositoryIT {
 
     @Autowired
     UnitOfMeasureRepository unitOfMeasureRepository;
 
+    @Autowired
+    CategoryRepository categoryRepository;
+
+    @Autowired
+    RecipeRepository recipeRepository;
+
     @Before
     public void setUp() throws Exception {
+
+        recipeRepository.deleteAll();
+        unitOfMeasureRepository.deleteAll();
+        categoryRepository.deleteAll();
+
+        RecipeBootstrap recipeBootstrap = new RecipeBootstrap(categoryRepository, recipeRepository, unitOfMeasureRepository);
+
+        recipeBootstrap.onApplicationEvent(null);
     }
 
     @Test
