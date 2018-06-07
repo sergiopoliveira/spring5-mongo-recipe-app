@@ -1,20 +1,27 @@
 package sergio.bootstrap;
 
-import lombok.extern.slf4j.Slf4j;
-import sergio.domain.*;
-import sergio.repositories.CategoryRepository;
-import sergio.repositories.RecipeRepository;
-import sergio.repositories.UnitOfMeasureRepository;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import sergio.domain.Category;
+import sergio.domain.Difficulty;
+import sergio.domain.Ingredient;
+import sergio.domain.Notes;
+import sergio.domain.Recipe;
+import sergio.domain.UnitOfMeasure;
+import sergio.repositories.CategoryRepository;
+import sergio.repositories.RecipeRepository;
+import sergio.repositories.UnitOfMeasureRepository;
+import sergio.repositories.reactive.UnitOfMeasureReactiveRepository;
 
 /**
  * Created by jt on 6/13/17.
@@ -26,6 +33,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     private final CategoryRepository categoryRepository;
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
+    
+    @Autowired
+    UnitOfMeasureReactiveRepository reactiveRepository;
 
     public RecipeBootstrap(CategoryRepository categoryRepository,
                            RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
@@ -37,10 +47,14 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
+    	
         loadCategories();
         loadUom();
         recipeRepository.saveAll(getRecipes());
         log.debug("Loading Bootstrap Data");
+        
+    	log.error("########");
+    	log.error("Count: " + reactiveRepository.count().block().toString());
     }
 
     private void loadCategories(){
