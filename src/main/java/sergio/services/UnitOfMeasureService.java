@@ -1,7 +1,6 @@
 package sergio.services;
 
-import java.util.Set;
-
+import reactor.core.publisher.Flux;
 import sergio.commands.UnitOfMeasureCommand;
 
 /**
@@ -9,5 +8,5 @@ import sergio.commands.UnitOfMeasureCommand;
  */
 public interface UnitOfMeasureService {
 
-    Set<UnitOfMeasureCommand> listAllUoms();
+    Flux<UnitOfMeasureCommand> listAllUoms();
 }
