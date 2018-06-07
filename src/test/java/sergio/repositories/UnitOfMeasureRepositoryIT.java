@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Optional;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import sergio.bootstrap.RecipeBootstrap;
 import sergio.domain.UnitOfMeasure;
-import sergio.repositories.CategoryRepository;
-import sergio.repositories.RecipeRepository;
-import sergio.repositories.UnitOfMeasureRepository;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest

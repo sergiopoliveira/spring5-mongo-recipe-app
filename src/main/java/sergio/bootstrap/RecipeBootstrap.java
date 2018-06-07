@@ -21,6 +21,8 @@ import sergio.domain.UnitOfMeasure;
 import sergio.repositories.CategoryRepository;
 import sergio.repositories.RecipeRepository;
 import sergio.repositories.UnitOfMeasureRepository;
+import sergio.repositories.reactive.CategoryReactiveRepository;
+import sergio.repositories.reactive.RecipeReactiveRepository;
 import sergio.repositories.reactive.UnitOfMeasureReactiveRepository;
 
 /**
@@ -34,8 +36,14 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
     
-    @Autowired
-    UnitOfMeasureReactiveRepository reactiveRepository;
+//    @Autowired
+//    UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository;
+//    
+//    @Autowired
+//    CategoryReactiveRepository categoryReactiveRepository;
+//    
+//    @Autowired
+//    RecipeReactiveRepository recipeReactiveRepository;
 
     public RecipeBootstrap(CategoryRepository categoryRepository,
                            RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
@@ -53,8 +61,10 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         recipeRepository.saveAll(getRecipes());
         log.debug("Loading Bootstrap Data");
         
-    	log.error("########");
-    	log.error("Count: " + reactiveRepository.count().block().toString());
+//    	log.error("########");
+//    	log.error("Count UoMReactiveRepository: " + unitOfMeasureReactiveRepository.count().block().toString());
+//    	log.error("Count RecipeReactiveRepository: " + categoryReactiveRepository.count().block().toString());
+//    	log.error("Count RecipeReactiveRepository: " + recipeReactiveRepository.count().block().toString());
     }
 
     private void loadCategories(){
