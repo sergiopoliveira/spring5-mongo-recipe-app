@@ -1,19 +1,24 @@
 package sergio.controllers;
 
-import lombok.extern.slf4j.Slf4j;
-import sergio.commands.RecipeCommand;
-import sergio.exceptions.NotFoundException;
-import sergio.services.RecipeService;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
 //import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.thymeleaf.exceptions.TemplateInputException;
 
-import javax.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import sergio.commands.RecipeCommand;
+import sergio.exceptions.NotFoundException;
+import sergio.services.RecipeService;
 
 /**
  * Created by jt on 6/19/17.
@@ -86,19 +91,16 @@ public class RecipeController {
         return "redirect:/";
     }
 
-//    @ResponseStatus(HttpStatus.NOT_FOUND)
-//    @ExceptionHandler(NotFoundException.class)
-//    public ModelAndView handleNotFound(Exception exception){
-//
-//        log.error("Handling not found exception");
-//        log.error(exception.getMessage());
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//
-//        modelAndView.setViewName("404error");
-//        modelAndView.addObject("exception", exception);
-//
-//        return modelAndView;
-//    }
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({NotFoundException.class, TemplateInputException.class})
+    public String handleNotFound(Exception exception, Model model){
+
+        log.error("Handling not found exception");
+        log.error(exception.getMessage());
+
+        model.addAttribute("exception", exception);
+
+        return "404error";
+    }
 
 }
